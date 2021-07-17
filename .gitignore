@@ -5,5 +5,5 @@ node_modules
 package-lock.json
 
 .env
-Unwanted files
+/Unwanted files
 
