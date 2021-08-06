@@ -1,6 +1,7 @@
 const Router = require("express").Router();
 
 const PublicationModel = require("../../database/publication");
+const BookModel=require("../../database/book");
 
 
 /*
@@ -61,6 +62,26 @@ Router.put("/update/book/:isbn", (req, res) => {
 //______________________________________________________________________-
 
 
+/* 
+Route            /publications
+Discription      Get specific publications
+Access           Public
+Parameter        publications
+Method           GET
+*/
+Router.get("/:name", async (req, res) => {
+  try {
+   const getSpecificPublication = await PublicationModel.findOne({name: req.params.name});
+
+   if (!getSpecificPublication) {
+       return res.json({error:`No book found for the publication of ${req.params.name}`,});
+   }
+
+   return res.json({publication: getSpecificPublication});
+  } catch (error) {
+      return res.json({error: error.message});
+  }
+});
 
 /*
 Route           /author/new
@@ -156,7 +177,7 @@ Router.delete("/delete/book/:isbn/:pubId", (req, res) => {
 
   /*
   Route           /publication/book
-  Description     get lsit publication based on a book isbn
+  Description     get list publication based on a book isbn
   Access          PUBLIC
   Parameters      isbn
   Method          GET

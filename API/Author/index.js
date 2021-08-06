@@ -65,6 +65,29 @@ Router.get("/", async (req, res) => {
     }
   });
 
+
+
+  /* 
+Route            /author/name
+Discription      Get specific authors
+Access           Public
+Parameter        name
+Method           GET
+*/
+Router.get("/:name", async (req, res) => {
+  try {
+      const getSpecificBook = await AuthorModel.findOne({name: req.params.name});
+  
+      if (!getSpecificBook) {
+          return res.json({error:`No book found for the author of ${req.params.name}`,});
+      }
+  
+      return res.json({author: getSpecificBook});
+  } catch (error) {
+      return res.json({error: error.message});
+  }
+});
+
 //-------------------------------------------------------------------
 //--------------------------------------------------------------------
 //----------------------------------------------------------------------
@@ -112,6 +135,27 @@ Router.post("/new", (req, res) => {
     }
   });
 
+  /* 
+Route            /author/book
+Discription      Get specific authors based on books
+Access           Public
+Parameter        isbn
+Method           GET
+*/
+Router.get("/book/:isbn", async (req, res) => {
+  try {
+      const getSpecificAuthor = await AuthorModel.findOne({books: req.params.isbn});
+
+      if (!getSpecificAuthor) {
+          return res.json({error:`No Author found for the book of ${req.params.isbn}`,
+      });
+     }
+  
+     return res.json({authors: getSpecificAuthor});
+  } catch (error) {
+      return res.json({error: error.message});
+  }
+});
 
 //-------------------------------------------------------------------
 //---------------------------------------------------------------------
